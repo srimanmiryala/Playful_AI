@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiboard Game Selector</title>
+    <link rel="stylesheet" href="../static/board_select_css.css">
+</head>
+<body>
+
+    <h1>Select a Game</h1>
+    <div class="game-container">
+        <!-- Chess Game -->
+        <form action="/index" method="POST">
+            <button class="game-card" type="submit">
+                <img src="../static/images/chess.jpeg" alt="Chess">
+                <h3>Chess</h3>
+                <p>A strategic game of logic and tactics played on an 8x8 board.</p>
+            </button>
+        </form>
+
+        <!-- Checkers Game -->
+        <form action="/checkers" method="POST">
+            <button class="game-card" type="submit">
+                <img src="../static/images/checkers.jpg" alt="Checkers">
+                <h3>Checkers</h3>
+                <p>Jump over and capture your opponent’s pieces in this classic game.</p>
+            </button>
+        </form>
+
+        <!-- Go Game -->
+        <form action="/go" method="POST">
+            <button class="game-card" type="submit">
+                <img src="../static/images/go.jpeg" alt="Go">
+                <h3>Go</h3>
+                <p>An ancient Chinese board game focused on territory control.</p>
+            </button>
+        </form>
+
+        <!-- Scrabble Game -->
+        <form action="/scrabble" method="POST">
+            <button class="game-card" type="submit">
+                <img src="../static/images/scrabble.jpg" alt="Scrabble">
+                <h3>Scrabble</h3>
+                <p>Form words on the board using letter tiles to score points.</p>
+            </button>
+        </form>
+
+        <!-- Connect Four Game -->
+        <form action="/connect_four" method="POST">
+            <button class="game-card" type="submit">
+                <img src="../static/images/connect_four.jpeg" alt="Connect Four">
+                <h3>Connect Four</h3>
+                <p>Drop discs into a grid to connect four in a row and win!</p>
+            </button>
+        </form>
+
+        <!-- Reversi (Othello) Game -->
+        <form action="/reversi" method="POST">
+            <button class="game-card" type="submit">
+                <img src="../static/images/reversi.jpeg" alt="Reversi">
+                <h3>Reversi</h3>
+                <p>Flip your opponent’s pieces to dominate the board.</p>
+            </button>
+        </form>
+
+        <!-- Mancala Game -->
+        <form action="/mancala" method="POST">
+            <button class="game-card" type="submit">
+                <img src="../static/images/mancala.jpg" alt="Mancala">
+                <h3>Mancala</h3>
+                <p>A traditional African game of strategy and counting stones.</p>
+            </button>
+        </form>
+    </div>
+
+</body>
+</html>
