@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Chess Game</title>
+   <link rel="stylesheet" href="../static/style.css">
+   <script  src="../static/script.js"></script>
+    <script>
+        var diff_levels={"beginner":1,"intermediate":5,"expert":10,"master":15,"grandmaster":20};
+        difficultySelectors = function () {
+       const difficultySelector = document.getElementById("difficulty-selector");
+        const selectedDifficulty = difficultySelector.value;
+        console.log(selectedDifficulty);
+        fetch("/set_difficulty", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ level: diff_levels[selectedDifficulty] })
+        })
+        .then(response => response.json());
+        /*.then(data => alert("Difficulty set to " + data.difficult))
+        .catch(error => console.error("Error setting difficulty:", error));*/
+    };
+
+        const divele=document.getElementById("chessboard");
+        //console.log(divele)
+        async function makeMove() {
+            let move = document.getElementById("moveInput").value;
+            const response = await fetch('/move', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ move: move })
+            });
+            const data = await response.json();
+            console.log(data)
+            if (data.status === "success") {
+                document.getElementById("chessboard").innerHTML = data.board;
+                //console.log(document.getElementById("chessboard"))
+            } else {
+                alert("Invalid move!");
+            }
+        }
+
+        async function resetBoard() {
+            const response = await fetch('/reset', { method: 'POST' });
+            const data = await response.json();
+            document.getElementById("chessboard").innerHTML = data.board;
+        }
+    </script>
+</head>
+<body>
+    <h1>Flask Chess Game</h1>
+    <div class="board_gpt">
+        <div class="board_level">
+            <div id="chessboard" class="chessboard">
+             {{ board_svg | safe }}
+                </div>
+             <div class="inputs">
+    <!-- <input type="text" id="moveInput" placeholder="Enter move (e.g., e2e4)">
+    <button onclick="makeMove()">Move</button>
+    <button onclick="resetBoard()">Reset</button>
+        <label for="difficulty-selector">Select Difficulty:</label>
+            <input id="difficulty-selector" type="range" min="0" max="20" step="5" oninput="difficultySelectors()">
+             <span id="difficulty-value">1</span> -->
+        <label for="difficulty-selector">Select Difficulty:</label>
+        <select id="difficulty-selector" onchange="difficultySelectors()">
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="expert">Expert</option>
+            <option value="master">Master</option>
+            <option value="grandmaster">Grandmaster</option>
+        </select>
+
+
+         </div>
+        </div>
+
+    <div class="gpt">
+    <div id="chat-box"></div>  <!-- Chat history -->
+    <input type="text" id="user-input" placeholder="Ask something...">
+    <button onclick="sendMessage()">Send</button>
+    </div>
+
+    </div>
+
+
+
+</body>
+ <script>
+        let moves='';
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("chessboard").addEventListener("click", async function (event) {
+                let boardRect = this.getBoundingClientRect(); // Get board size & position
+                let x = event.clientX - boardRect.left; // Relative X position
+                let y = event.clientY - boardRect.top;  // Relative Y position
+
+                let boardSize = boardRect.width; // Assuming square board
+                let tileSize = boardSize / 8; // Each tile is boardSize / 8
+
+                // Calculate file (column) and rank (row)
+                let fileIndex = Math.floor(x / tileSize); // 0 (a) to 7 (h)
+                let rankIndex = 7 - Math.floor(y / tileSize); // 0 (8) to 7 (1)
+
+                // Convert indexes to chess notation (e.g., "e2")
+                let files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+                let rank = rankIndex + 1;
+                let file = files[fileIndex];
+
+                let square = file + rank; // Final chess notation
+
+                if (moves==""){
+                    moves=square;
+                }
+                else{
+                    move=moves+square;
+                    const response = await fetch('/move', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ move: move })
+                    });
+                    const data = await response.json();
+                    if (data.status === "success") {
+                        document.getElementById("chessboard").innerHTML = data.board;
+                    } else {
+                        alert("Invalid move!");
+                    }
+                    moves='';
+                }
+            });
+        });
+
+    </script>
+</html>
