@@ -36,7 +36,7 @@ Clone the repo:
 
 bash:
 
-git clone [https://github.com/yourusername/playfulai-chess.git](https://github.com/srimanmiryala/Genarative_ai)
+git clone https://github.com/srimanmiryala/Genarative_ai
 
 cd playfulai-chess
 
